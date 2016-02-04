@@ -1,0 +1,13 @@
+common:
+  database: "sqlite:///./group.sqlite"
+  prefix: export/
+  format: csv
+
+exports:
+  - query: "select id, username, date_time, topic_url,views, posts,userid, topic from topics order by id"
+    filename: "topics.csv"
+    format: csv
+
+  - query: "select id, author, topic, seq, lastPostDate, subject, snippet  from emails order by id, topic, seq  "
+    filename: "emails.csv"
+    format: csv
