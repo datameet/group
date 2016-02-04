@@ -6,7 +6,6 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 import dataset
-import dryscrape
 
 #*********************PLEASE UPDATE THIS***********************
 base_url = 'https://groups.google.com/forum/'
