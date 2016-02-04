@@ -1,0 +1,56 @@
+common:
+  database: "sqlite:///./group.sqlite"
+  prefix: reports/
+  format: csv
+
+exports:
+  - query: "select id, username, date_time, 'https://groups.google.com/forum/'|| topic_url,views, posts,userid, topic from topics order by CAST(posts as INT) desc LIMIT 10"
+    filename: "csv/top_10_topics_by_replies.csv"
+    format: csv
+
+  - query: "select id, username, date_time, 'https://groups.google.com/forum/'|| topic_url,views, posts,userid, topic from topics order by CAST(posts as INT) desc LIMIT 10"
+    filename: "json/top_10_topics_by_replies.json"
+    format: json
+
+  - query: "select id, username, date_time, 'https://groups.google.com/forum/'|| topic_url,views, posts,userid, topic from topics order by CAST(views as INT) desc LIMIT 10"
+    filename: "csv/top_10_topics_by_views.csv"
+    format: csv
+
+  - query: "select id, username, date_time, 'https://groups.google.com/forum/'|| topic_url,views, posts,userid, topic from topics order by CAST(views as INT) desc LIMIT 10"
+    filename: "json/top_10_topics_by_views.json"
+    format: json
+
+  - query: "select author, count(author) as total_topics_started from emails  where seq = 1 group by author order by total_topics_started desc LIMIT 10"
+    filename: "csv/top_10_users_by_total_topics_started.csv"
+    format: csv
+        
+  - query: "select author, count(author) as total_topics_started from emails  where seq = 1 group by author order by total_topics_started desc LIMIT 10"
+    filename: "json/top_10_users_by_total_topics_started.json"
+    format: json
+    
+  - query: "select author, count(author) as total_emails_sent from emails  group by author order by total_emails_sent desc LIMIT 20"
+    filename: "csv/top_20_users_by_total_emails_sent.csv"
+    format: csv
+        
+  - query: "select author, count(author) as total_emails_sent from emails  group by author order by total_emails_sent desc LIMIT 20"
+    filename: "json/top_20_users_by_total_emails_sent.json"
+    format: json    
+
+  - query: "select author, count(author) as total_topics_first_response from emails  where seq = 2 group by author order by total_topics_first_response desc LIMIT 20"
+    filename: "csv/top_20_users_by_total_topics_first_response.csv"
+    format: csv
+        
+  - query: "select author, count(author) as total_topics_first_response from emails  where seq = 2 group by author order by total_topics_first_response desc LIMIT 20"
+    filename: "json/top_20_users_by_total_topics_first_response.csv"
+    format: json
+
+  - query: "select month, count(*) as total_emails from (select SUBSTR(lastPostDate, 0, 8) as month from emails)  group by month order by month desc;"
+    filename: "csv/emails_by_month.csv"
+    format: csv
+        
+  - query: "select month, count(*) as total_emails from (select SUBSTR(lastPostDate, 0, 8) as month from emails)  group by month order by month desc;"
+    filename: "json/emails_by_month.json"
+    format: json
+    
+    
+    

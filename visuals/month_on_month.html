@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <link rel="stylesheet" href="chartist-plugin-tooltip.css">
+    <script src="chartist-plugin-tooltip.min.js"></script>
+	<style>
+
+	</style>
+	
+  </head>
+  <body>
+  <div id="first" class="ct-chart ct-major-twelfth" style="width:99%;"></div>
+  
+  <script>
+	var json_chart_labels = [];
+	var json_chart_count_array = [];
+	function success(data){
+		$.each( data.results, function( i ) {
+				item = data.results[i];
+				json_chart_labels.push(item["month"].substring(5, 7));
+				json_chart_count_array.push({"meta":"Month of "+item["month"],  "value":item["total_emails"]});
+		});
+		
+		
+		new Chartist.Line('#first', {
+			  labels: json_chart_labels,
+			  series: [{name:"series-1", data:json_chart_count_array}]
+				}, {
+					reverseData: true,
+					fullWidth: false,
+					low:'2011-01',
+					chartPadding: {
+						right: 10
+					},
+					axisY: {
+						onlyInteger: true
+					},
+					axisX: {
+						
+						showLabel: true
+					},
+					 plugins: [
+						Chartist.plugins.tooltip()
+					],
+					series: {
+						'series-1': {      lineSmooth: Chartist.Interpolation.simple(),showArea: true}
+					}
+					
+					
+			}
+			
+			
+			);
+		
+	}
+	
+	$.ajax({
+	  dataType: "json",
+	  url:  "../../reports/json/emails_by_month.json",
+	  success: success
+	});
+
+  </script>
+  </body>
+</html>
